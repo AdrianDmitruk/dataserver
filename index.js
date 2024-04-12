@@ -14,7 +14,9 @@ import {
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 
 mongoose
-  .connect("mongodb://localhost:27017/data")
+  .connect(
+    "mongodb+srv://admin:1188753Aa@cluster0.r1kn9df.mongodb.net/todo?retryWrites=true&w=majority"
+  )
   .then(() => console.log("DB ok"))
   .catch((err) => console.log("DB error", err));
 
@@ -22,11 +24,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://adriandmitruk.github.io"],
-  })
-);
+app.use(cors());
 
 app.get("/api/person", getPersons);
 app.post(
