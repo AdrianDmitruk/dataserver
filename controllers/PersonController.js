@@ -26,11 +26,8 @@ export const createPerson = async (req, res) => {
       } else if (error.keyPattern.phoneNumber) {
         message = "Номер телефона уже используется";
       }
-      return res
-        .status(200)
-        .json({ error: true, message: "Электронная почта уже используется" });
 
-      // return res.status(400).json({ message });
+      return res.status(400).json({ message });
     }
     console.error(error);
     res.status(500).json({ message: "Не удалось создать запись о человеке" });
