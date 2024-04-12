@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-
+import cors from "cors";
 import {
   createPerson,
   deletePerson,
@@ -21,13 +21,12 @@ mongoose
 const app = express();
 
 app.use(express.json());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+const corsOrigin = {
+  origin: "http://localhost:5173",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOrigin));
 
 app.get("/api/person", getPersons);
 app.post(
