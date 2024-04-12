@@ -27,9 +27,6 @@ export const createPerson = async (req, res) => {
         message = "Номер телефона уже используется";
       }
 
-      res.setHeader("Access-Control-Allow-Origin", "*"); // Or set specific allowed origins
-      res.setHeader("Access-Control-Allow-Methods", "POST");
-      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       return res.status(400).json({ message });
     }
     console.error(error);

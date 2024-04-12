@@ -25,6 +25,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({ origin: "*" }));
+app.options("*", cors());
 
 app.get("/api/person", getPersons);
 app.post(
