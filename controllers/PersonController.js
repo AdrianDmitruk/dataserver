@@ -35,8 +35,25 @@ export const createPerson = async (req, res) => {
 
 export const getPersons = async (req, res) => {
   try {
-    const courses = await PersonModel.find().exec();
-    res.json(courses);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+
+    const skip = (page - 1) * pageSize;
+
+    const totalPersons = await PersonModel.countDocuments();
+
+    const persons = await PersonModel.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize)
+      .exec();
+
+    res.json({
+      persons,
+      totalPages: Math.ceil(totalPersons / pageSize),
+      currentPage: page,
+      totalPersons,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -64,7 +81,7 @@ export const updatePerson = async (req, res) => {
       const existingPersonWithEmail = await PersonModel.findOne({ email });
       if (existingPersonWithEmail && existingPersonWithEmail._id != personId) {
         return res
-          .status(400)
+          .status(405)
           .json({ message: "Электронная почта уже используется" });
       }
     }
@@ -77,7 +94,7 @@ export const updatePerson = async (req, res) => {
         existingPersonWithPhoneNumber._id != personId
       ) {
         return res
-          .status(400)
+          .status(406)
           .json({ message: "Номер телефона уже используется" });
       }
     }

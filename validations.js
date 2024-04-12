@@ -2,10 +2,9 @@ import { body } from "express-validator";
 
 export const createPersonValidation = [
   body("fullName", "Введите ФИО").isLength({ min: 3 }).isString(),
-  body("phoneNumber", "Введите корректный номер телефона").isMobilePhone(
-    "any",
-    { strictMode: false }
-  ),
+  body("phoneNumber", "Введите корректный номер телефона")
+    .isLength({ min: 3 })
+    .isString(),
   body("email", "Введите корректный адрес электронной почты").isEmail(),
   body("dateOfBirth", "Введите корректную дату рождения").isISO8601(),
   body("passport", "Введите серию и номер паспорта")
@@ -25,8 +24,8 @@ export const createPersonValidation = [
 export const updatePersonValidation = [
   body("fullName", "Введите ФИО").optional().isLength({ min: 3 }).isString(),
   body("phoneNumber", "Введите корректный номер телефона")
-    .optional()
-    .isMobilePhone("any", { strictMode: false }),
+    .isLength({ min: 3 })
+    .isString(),
   body("email", "Введите корректный адрес электронной почты")
     .optional()
     .isEmail(),
